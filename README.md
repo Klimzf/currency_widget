@@ -35,10 +35,13 @@ php bin/console doctrine:migrations:migrate
 # Первый импорт реальных курсов с ЦБ
 php bin/console app:fetch-currency-rates
 
-# (Опционально) Загрузка фиктивных данных за вчерашний день для демонстрации изменения
-php bin/console doctrine:fixtures:load --append
-
 exit
+```
+
+### (Опционально) Добавление демонстрационных данных за вчерашний день
+Чтобы увидеть изменение курса, вставьте фиктивные курсы за вчера одной командой:
+```bash
+docker compose exec php php bin/console app:seed-demo-data
 ```
 
 ### 4. Доступ к приложению
