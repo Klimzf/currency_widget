@@ -1,0 +1,30 @@
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 20px; 
+}
+.container { 
+    max-width: 900px; 
+    margin: auto; 
+}
+.currency-row { 
+    display: grid;
+    grid-template-columns: 1fr 150px 120px;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+.currency-name {
+    font-weight: bold;
+}
+.currency-value {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+.currency-change {
+    text-align: right;
+    white-space: nowrap;
+}
+.up { color: green; }
+.down { color: red; }
+label { display: block; margin: 10px 0; }

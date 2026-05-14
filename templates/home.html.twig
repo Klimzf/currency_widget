@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Currency Widget</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Курсы валют ЦБ РФ</h1>
+        <div id="widget"><p>Загрузка...</p></div>
+        <hr>
+        <h2>Настройки</h2>
+        <form id="settings-form">
+            <label>Отображаемые валюты (через запятую): <input type="text" id="display-currencies"></label><br>
+            <label>Загружаемые валюты (через запятую): <input type="text" id="fetch-currencies"></label><br>
+            <label>Интервал обновления (сек.): <input type="number" id="update-interval" value="60" min="10"></label><br>
+            <button type="submit">Сохранить</button>
+        </form>
+        <div id="settings-message"></div>
+    </div>
+    <script src="/js/widget.js"></script>
+</body>
+</html>
