@@ -1,0 +1,74 @@
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: currency_php
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: currency_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:8.0
+    container_name: currency_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cb_currency_db
+      MYSQL_USER: cb_user
+      MYSQL_PASSWORD: cb_secure_pass_2026
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    container_name: currency_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: currency_cron
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    command: >
+      sh -c "echo '*/5 * * * * cd /var/www/html && /usr/local/bin/php bin/console app:fetch-currency-rates >> /tmp/cron.log 2>&1' | crontab - && cron -f -l 2"
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - redis
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
